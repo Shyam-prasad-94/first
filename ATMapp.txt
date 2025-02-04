@@ -1,0 +1,126 @@
+
+import java.util.*;
+interface ATM {
+	void withdraw();
+	void deposit();
+	void bal_enq();
+	void reset_pin();
+}
+class HDFC implements ATM{
+	int acc_no;
+	float bal;
+	String name;
+	int pin;
+	Scanner sc;
+
+HDFC(int acc_no,float bal,String name,int pin,Scanner sc){
+	this.acc_no=acc_no;
+	this.bal=bal;
+	this.name=name;
+	this.pin=pin;
+	this.sc=sc;
+	
+}
+//withdraw 
+public void withdraw(){
+	System.out.println("Enter Amount to Withdraw:");
+	int amount=sc.nextInt();
+	if(amount>0 && amount<=bal) {
+		bal -= amount;
+		System.out.println("Withdraw Success! Remaining Balance:"+bal);
+	    }
+		else if(amount<=0) {
+			System.out.println("Invalid Amount!");
+		    }
+		 	else {
+				System.out.println("Insufficient Funds:");
+		 		}
+	}
+	
+//Deposit method
+public void deposit(){
+	System.out.println("Enter Amount to Deposit:");
+	int amount=sc.nextInt();
+	if(amount > 0) {
+		bal += amount;
+		System.out.println("Deposit Success! Remaining Balance:"+bal);
+	}
+	else {
+		System.out.println("Invalid Amount!");
+	}
+}
+
+//Balance Enquiry
+public void bal_enq(){
+	System.out.println("Current Balance:"+bal);
+}
+
+//Reset Pin
+public void reset_pin() {
+	System.out.println("Enter Old Pin:");
+	int oldpin=sc.nextInt();
+	if(oldpin==pin) {
+		System.out.println("Enter New Pin:");
+		int newpin=sc.nextInt();
+		System.out.println("Confirm New Pin:");
+		int confirmpin=sc.nextInt();
+		if(newpin==confirmpin) {
+			pin=newpin;
+			System.out.println("Pin Successfully Changed:");
+		}
+		else {
+			System.out.println("Pin Confirmation Failed:");
+		}
+	}
+		else {
+			System.out.println("Incorrect Pin:");
+		}
+	}
+}
+
+
+//Main class
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		ATM atm=new HDFC(123456,15000,"user",1100,sc);
+		char choice;
+		do {
+			System.out.println("\n--- ATM MENU ---");
+            System.out.println("1. Withdraw");
+            System.out.println("2. Deposit");
+            System.out.println("3. Balance Inquiry");
+            System.out.println("4. Reset PIN");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int ch = sc.nextInt();
+            switch (ch) {
+                case 1:
+                    atm.withdraw();
+                    break;
+                case 2:
+                    atm.deposit();
+                    break;
+                case 3:
+                    atm.bal_enq();
+                    break;
+                case 4:
+                    atm.reset_pin();
+                    break;
+                case 5:
+                    System.out.println("Exiting ATM. Thank you!");
+                    sc.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice! Please enter a valid option.");
+            }
+            System.out.print("Do you want to continue? (y/n): ");
+            choice = sc.next().charAt(0);
+		}
+		while (choice == 's' || choice == 'S');
+		System.out.println("Thank you for using the ATM!");
+		
+	}
+
+}
